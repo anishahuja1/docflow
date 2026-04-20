@@ -1,0 +1,9 @@
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+This is a test document for DocFlow. It contains multiple sentences and some keywords like processing, automation, workflow, and intelligence.
+
+The quick brown fox jumps over the lazy dog. This sentence contains all letters of the alphabet.
+
+DocFlow is designed to be robust and scalable. It uses FastAPI for the backend and React for the frontend. Celery handles the heavy lifting in the background.
+
+End of sample text.

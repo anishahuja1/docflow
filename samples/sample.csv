@@ -1,0 +1,21 @@
+id,name,email,department,salary
+1,John Doe,john@example.com,Engineering,85000
+2,Jane Smith,jane@example.com,Marketing,72000
+3,Bob Johnson,bob@example.com,Sales,64000
+4,Alice Williams,alice@example.com,Engineering,92000
+5,Charlie Brown,charlie@example.com,HR,58000
+6,Diana Prince,diana@example.com,Sales,71000
+7,Edward Norton,edward@example.com,Engineering,88000
+8,Fiona Gallagher,fiona@example.com,HR,62000
+9,George Costanza,george@example.com,Marketing,69000
+10,Hannah Abbott,hannah@example.com,Engineering,79000
+11,Ian Malcolm,ian@example.com,Sales,75000
+12,Julia Roberts,julia@example.com,Marketing,81000
+13,Kevin Hart,kevin@example.com,HR,55000
+14,Laura Croft,laura@example.com,Engineering,95000
+15,Mike Wazowski,mike@example.com,Sales,60000
+16,Nancy Drew,nancy@example.com,Marketing,73000
+17,Oscar Wilde,oscar@example.com,HR,67000
+18,Peter Parker,peter@example.com,Engineering,82000
+19,Quinn Fabray,quinn@example.com,Sales,68000
+20,Rachel Green,rachel@example.com,Marketing,70000
