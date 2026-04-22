@@ -12,7 +12,7 @@ export const useJobProgress = (jobId: string | null) => {
   useEffect(() => {
     if (!jobId) return;
 
-    const eventSource = new EventSource(`${API_BASE_URL}/api/v1/progress/${jobId}`);
+    const eventSource = new EventSource(`/api/v1/progress/${jobId}`);
 
     eventSource.onopen = () => {
       setIsConnected(true);

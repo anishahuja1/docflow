@@ -1,15 +1,11 @@
 import axios from 'axios';
 
-export const API_BASE_URL = (() => {
-  let url = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
-  if (typeof window !== 'undefined' && window.location.hostname.includes('.github.dev')) {
-    url = window.location.origin.replace('-3000', '-8000');
-  }
-  return url;
-})();
+// Use relative URL - all API calls go through the Nginx proxy on port 3000
+// This works in both local Docker and GitHub Codespaces without any URL tricks
+export const API_BASE_URL = '';
 
 const apiClient = axios.create({
-  baseURL: `${API_BASE_URL}/api/v1`,
+  baseURL: '/api/v1',
   headers: {
     'Content-Type': 'application/json',
   },

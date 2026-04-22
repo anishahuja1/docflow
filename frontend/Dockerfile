@@ -1,4 +1,4 @@
-FROM node:20-alpine as build
+FROM node:20-alpine AS build
 
 WORKDIR /app
 
@@ -6,18 +6,14 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 COPY . .
-
-# Use vite directly to skip TypeScript type-check errors during build
 RUN npx vite build
 
-# Production serve
-FROM node:20-alpine
+# Use Nginx to serve frontend and proxy API calls
+FROM nginx:alpine
 
-WORKDIR /app
-RUN npm install -g serve
-
-COPY --from=build /app/dist /app/dist
+COPY --from=build /app/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 3000
 
-CMD ["serve", "-s", "dist", "-l", "3000"]
+CMD ["nginx", "-g", "daemon off;"]
