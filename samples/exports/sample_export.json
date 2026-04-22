@@ -1,0 +1,20 @@
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "title": "Quarterly Financial Report",
+  "category": "document",
+  "summary": "This document contains the financial summary for Q3 2024. Key highlights include a 15% increase in revenue and a 5% reduction in operating costs. The report details department-level spending and future budget allocations.",
+  "word_count": 1250,
+  "line_count": 85,
+  "keywords": ["Financial", "Q3", "Revenue", "Budget", "Report"],
+  "file_metadata": {
+    "filename": "Q3_Report_Final.pdf",
+    "file_type": "application/pdf",
+    "file_size_bytes": 2457600,
+    "file_size_human": "2.3 MB",
+    "page_count": 12,
+    "image_dimensions": null
+  },
+  "processing_timestamp": "2024-10-22T10:15:30Z",
+  "status": "completed",
+  "is_finalized": true
+}
