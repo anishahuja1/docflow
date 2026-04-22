@@ -2,6 +2,10 @@
 
 DocFlow is a production-style full-stack application designed to handle asynchronous document processing. It allows users to upload multiple documents, tracks their processing progress in real-time via Server-Sent Events (SSE), extracts key metadata and content (PDF, TXT, DOCX, CSV, and Images), and provides tools for reviewing and exporting the results.
 
+<img width="958" height="409" alt="image" src="https://github.com/user-attachments/assets/03c3fb32-c6d8-4efd-b496-2f3fa770c121" />
+
+<img width="939" height="408" alt="image" src="https://github.com/user-attachments/assets/45353206-73da-4a34-9151-88bf442c5b3b" />
+
 ## 🏗️ Architecture Overview
 
 The system is designed with a strict separation of concerns to handle high-concurrency document processing without blocking the API:
@@ -66,5 +70,15 @@ graph TD
 - **Test Files:** See `/samples` for PDF, TXT, and CSV examples.
 - **Exported Data:** See `/samples/exports` for what the system generates.
 
-## 🤖 AI Usage Note
-This project was developed with the assistance of the **Antigravity AI** coding assistant to ensure high code quality and architecture standards.
+## 🤖 AI Tools Disclosure
+This project was developed with the assistance of an AI coding assistant 
+(Antigravity AI). AI was used to:
+- Accelerate boilerplate code generation (models, schemas, routers)
+- Debug runtime errors during Codespace deployment
+- Suggest best practices for async architecture patterns
+
+All architectural decisions, system design choices, and overall implementation 
+direction were made independently. The use of AI tools mirrors standard 
+industry practice where developers use tools like GitHub Copilot or ChatGPT 
+as productivity aids.
+
