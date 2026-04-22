@@ -16,54 +16,62 @@ down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
+
 def upgrade() -> None:
-    # Create Enum safely
-    op.execute("""
+    conn = op.get_bind()
+
+    # Safely create the enum type only if it doesn't exist
+    conn.execute(sa.text("""
         DO $$
         BEGIN
             IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'process_status') THEN
                 CREATE TYPE process_status AS ENUM ('queued', 'processing', 'completed', 'failed');
             END IF;
         END$$;
-    """)
-    
-    op.create_table('documents',
-        sa.Column('id', postgresql.UUID(as_uuid=True), nullable=False),
-        sa.Column('filename', sa.String(length=255), nullable=False),
-        sa.Column('original_filename', sa.String(length=255), nullable=False),
-        sa.Column('file_path', sa.Text(), nullable=False),
-        sa.Column('file_type', sa.String(length=50), nullable=True),
-        sa.Column('file_size', sa.BigInteger(), nullable=True),
-        sa.Column('status', sa.Enum('queued', 'processing', 'completed', 'failed', name='process_status'), nullable=False),
-        sa.Column('upload_time', sa.DateTime(timezone=True), nullable=True),
-        sa.Column('processed_at', sa.DateTime(timezone=True), nullable=True),
-        sa.Column('extracted_data', postgresql.JSONB(astext_type=sa.Text()), nullable=True),
-        sa.Column('reviewed_data', postgresql.JSONB(astext_type=sa.Text()), nullable=True),
-        sa.Column('is_finalized', sa.Boolean(), nullable=True),
-        sa.Column('finalized_at', sa.DateTime(timezone=True), nullable=True),
-        sa.Column('error_message', sa.Text(), nullable=True),
-        sa.PrimaryKeyConstraint('id')
-    )
-    
-    op.create_table('processing_jobs',
-        sa.Column('id', postgresql.UUID(as_uuid=True), nullable=False),
-        sa.Column('document_id', postgresql.UUID(as_uuid=True), nullable=True),
-        sa.Column('status', sa.Enum('queued', 'processing', 'completed', 'failed', name='process_status'), nullable=False),
-        sa.Column('celery_task_id', sa.String(length=255), nullable=True),
-        sa.Column('current_stage', sa.String(length=100), nullable=True),
-        sa.Column('progress_percent', sa.Integer(), nullable=True),
-        sa.Column('retry_count', sa.Integer(), nullable=True),
-        sa.Column('max_retries', sa.Integer(), nullable=True),
-        sa.Column('created_at', sa.DateTime(timezone=True), nullable=True),
-        sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
-        sa.Column('started_at', sa.DateTime(timezone=True), nullable=True),
-        sa.Column('completed_at', sa.DateTime(timezone=True), nullable=True),
-        sa.Column('error_message', sa.Text(), nullable=True),
-        sa.ForeignKeyConstraint(['document_id'], ['documents.id'], ondelete='CASCADE'),
-        sa.PrimaryKeyConstraint('id')
-    )
+    """))
+
+    # Create documents table only if it doesn't exist
+    conn.execute(sa.text("""
+        CREATE TABLE IF NOT EXISTS documents (
+            id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+            filename VARCHAR(255) NOT NULL,
+            original_filename VARCHAR(255) NOT NULL,
+            file_path TEXT NOT NULL,
+            file_type VARCHAR(50),
+            file_size BIGINT,
+            status process_status NOT NULL DEFAULT 'queued',
+            upload_time TIMESTAMPTZ DEFAULT NOW(),
+            processed_at TIMESTAMPTZ,
+            extracted_data JSONB,
+            reviewed_data JSONB,
+            is_finalized BOOLEAN DEFAULT FALSE,
+            finalized_at TIMESTAMPTZ,
+            error_message TEXT
+        )
+    """))
+
+    # Create processing_jobs table only if it doesn't exist
+    conn.execute(sa.text("""
+        CREATE TABLE IF NOT EXISTS processing_jobs (
+            id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+            document_id UUID REFERENCES documents(id) ON DELETE CASCADE,
+            status process_status NOT NULL DEFAULT 'queued',
+            celery_task_id VARCHAR(255),
+            current_stage VARCHAR(100),
+            progress_percent INTEGER DEFAULT 0,
+            retry_count INTEGER DEFAULT 0,
+            max_retries INTEGER DEFAULT 3,
+            created_at TIMESTAMPTZ DEFAULT NOW(),
+            updated_at TIMESTAMPTZ DEFAULT NOW(),
+            started_at TIMESTAMPTZ,
+            completed_at TIMESTAMPTZ,
+            error_message TEXT
+        )
+    """))
+
 
 def downgrade() -> None:
-    op.drop_table('processing_jobs')
-    op.drop_table('documents')
-    op.execute("DROP TYPE process_status")
+    conn = op.get_bind()
+    conn.execute(sa.text("DROP TABLE IF EXISTS processing_jobs"))
+    conn.execute(sa.text("DROP TABLE IF EXISTS documents"))
+    conn.execute(sa.text("DROP TYPE IF EXISTS process_status"))
