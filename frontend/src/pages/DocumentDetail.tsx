@@ -5,7 +5,7 @@ import { useJobProgress } from '../hooks/useJobProgress';
 import StatusBadge from '../components/StatusBadge';
 import ProgressBar from '../components/ProgressBar';
 import ExportButtons from '../components/ExportButtons';
-import { ArrowLeft, Save, ShieldCheck, Info, FileText, Tag, List, Calendar, HardDrive, Type } from 'lucide-react';
+import { ArrowLeft, Save, ShieldCheck, Info, FileText, Tag, AlertCircle, Calendar, HardDrive } from 'lucide-react';
 import { format } from 'date-fns';
 import { clsx } from 'clsx';
 
