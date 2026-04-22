@@ -17,8 +17,15 @@ branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
 def upgrade() -> None:
-    # Create Enum
-    op.execute("CREATE TYPE process_status AS ENUM ('queued', 'processing', 'completed', 'failed')")
+    # Create Enum safely
+    op.execute("""
+        DO $$
+        BEGIN
+            IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'process_status') THEN
+                CREATE TYPE process_status AS ENUM ('queued', 'processing', 'completed', 'failed');
+            END IF;
+        END$$;
+    """)
     
     op.create_table('documents',
         sa.Column('id', postgresql.UUID(as_uuid=True), nullable=False),
