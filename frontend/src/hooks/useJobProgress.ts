@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ProgressEvent } from '../types';
-import apiClient from '../api/client';
+import { API_BASE_URL } from '../api/client';
 
 export const useJobProgress = (jobId: string | null) => {
   const [currentStage, setCurrentStage] = useState<string | null>(null);
@@ -12,7 +12,6 @@ export const useJobProgress = (jobId: string | null) => {
   useEffect(() => {
     if (!jobId) return;
 
-    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
     const eventSource = new EventSource(`${API_BASE_URL}/api/v1/progress/${jobId}`);
 
     eventSource.onopen = () => {
