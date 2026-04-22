@@ -1,6 +1,6 @@
 import uuid
 from datetime import datetime, timezone
-from sqlalchemy import Column, String, BigINT, TEXT, Boolean, DateTime, Enum, JSON
+from sqlalchemy import Column, String, BigInteger, TEXT, Boolean, DateTime, Enum, JSON
 from sqlalchemy.dialects.postgresql import UUID, JSONB
 from app.database import Base
 
@@ -12,7 +12,7 @@ class Document(Base):
     original_filename = Column(String(255), nullable=False)
     file_path = Column(TEXT, nullable=False)
     file_type = Column(String(50))
-    file_size = Column(BigINT)
+    file_size = Column(BigInteger)
     status = Column(Enum('queued', 'processing', 'completed', 'failed', name='process_status'), nullable=False, default='queued')
     upload_time = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
     processed_at = Column(DateTime(timezone=True), nullable=True)
